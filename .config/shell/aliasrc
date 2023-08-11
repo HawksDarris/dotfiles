@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# Use neovim for vim if present.
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+
+# Use $XINITRC variable if file exists.
+[ -f "$XINITRC" ] && alias startx="startx $XINITRC"
+
+[ -f "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC"
+
+# doas not required for some system commands
+for command in mount umount sv pacman updatedb su shutdown poweroff reboot ; do
+	alias $command="doas $command"
+done; unset command
+
+se() {
+    choice="$(find $HOME/.local/bin -mindepth 1 -printf '%P\n' | fzf --preview 'bat --color=always --style=numbers $HOME/.local/bin/{}')"
+    [ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice";
+}
+
+ym() {
+    mpv --hwdec=vaapi --vo=opengl --force-window=immediate "$1" slang=en;
+}
+
+cd() {
+    builtin cd "$@" && ls -da --color=auto --group-directories-first * && ls -d --color=auto --group-directories-first .*;
+}
+
+# Verbosity and settings that you pretty much just always are going to want.
+alias \
+	cp="cp -iv" \
+	mv="mv -iv" \
+	rm="rm -vI" \
+	bc="bc -ql" \
+	rsync="rsync -vrPlu" \
+	mkd="mkdir -pv" \
+	yt="yt-dlp --embed-metadata -i" \
+	yta="yt -x -f bestaudio/best" \
+	ytt="yt --skip-download --write-thumbnail" \
+	ffmpeg="ffmpeg -hide_banner"
+
+# Colorize commands when possible.
+alias \
+	ls="ls --color=auto --group-directories-first" \
+	grep="grep --color=auto" \
+	diff="diff --color=auto" \
+	ip="ip -color=auto"
+
+# These common commands are just too long! Abbreviate them.
+alias \
+	ka="killall" \
+	g="git" \
+	trem="transmission-remote" \
+	sdn="shutdown -h now" \
+	v="$EDITOR" \
+	p="pacman" \
+	z="zathura" \
+	copy="xsel --clipboard" \
+	copyp="xsel --primary" \
+	bts="doas systemctl start bluetooth && bluetoothctl connect 10:4F:A8:DA:F4:46" \
+	btx="doas systemctl stop bluetooth" \
+	rec="ffmpeg -f pulse -i 53 /tmp/output.wav" \
+	autofan="doas ectool --interface=lpc autofanctrl" \
+	config="/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME" \
+	cpu='ps -eo pcpu,pid,user,args | tail -n +2 | sort -k1 -r -n | head -10'
+
+alias \
+	lf="lfub" \
+	magit="nvim -c MagitOnly" \
+	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" \
+	weath="less -S ${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport" \
+	puk="doas protonvpn c --cc UK"
+
+# Alternatives that you don't want to remember to use
+alias cat="bat" \
+	sudo="doas" \
+	sxiv="nsxiv"

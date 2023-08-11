@@ -1,0 +1,77 @@
+
+
+
+IMAPStore darris@hawkslegal.com-remote
+Host imap.gmail.com
+Port 993
+User darris@hawkslegal.com
+PassCmd "pass darris@hawkslegal.com"
+AuthMechs LOGIN
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore darris@hawkslegal.com-local
+Subfolders Verbatim
+Path /home/citric/.local/share/mail/darris@hawkslegal.com/
+Inbox /home/citric/.local/share/mail/darris@hawkslegal.com/INBOX
+
+Channel darris@hawkslegal.com
+Expunge Both
+Far :darris@hawkslegal.com-remote:
+Near :darris@hawkslegal.com-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+ExpireUnread no
+# End profile
+
+IMAPStore darris.hawks@gmail.com-remote
+Host imap.gmail.com
+Port 993
+User darris.hawks@gmail.com
+PassCmd "pass darris.hawks@gmail.com"
+AuthMechs LOGIN
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore darris.hawks@gmail.com-local
+Subfolders Verbatim
+Path /home/citric/.local/share/mail/darris.hawks@gmail.com/
+Inbox /home/citric/.local/share/mail/darris.hawks@gmail.com/INBOX
+
+Channel darris.hawks@gmail.com
+Expunge Both
+Far :darris.hawks@gmail.com-remote:
+Near :darris.hawks@gmail.com-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+ExpireUnread no
+# End profile
+
+IMAPStore dhawks@catholiccharitiesswks.org-remote
+Host imap.gmail.com
+Port 993
+User dhawks@catholiccharitiesswks.org
+PassCmd "pass dhawks@catholiccharitiesswks.org"
+AuthMechs LOGIN
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore dhawks@catholiccharitiesswks.org-local
+Subfolders Verbatim
+Path /home/citric/.local/share/mail/dhawks@catholiccharitiesswks.org/
+Inbox /home/citric/.local/share/mail/dhawks@catholiccharitiesswks.org/INBOX
+
+Channel dhawks@catholiccharitiesswks.org
+Expunge Both
+Far :dhawks@catholiccharitiesswks.org-remote:
+Near :dhawks@catholiccharitiesswks.org-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+ExpireUnread no
+# End profile
