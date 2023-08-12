@@ -118,7 +118,7 @@ set noshowcmd
 	let g:vimwiki_ext2syntax = {'.Rmd': 'markdown', '.rmd': 'markdown','.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 	map <leader>v :VimwikiIndex<CR>
 let g:vimwiki_list = [
-    \ {'path': '~/.local/share/nvim/vimwiki/Development', 'syntax': 'markdown', 'ext': '.md', 'nested_syntaxes': {'js': 'javascript','html': 'html','css': 'css','python':'python'}},
+    \ {'path': '~/$HOME/Documents/Learning/Development', 'syntax': 'markdown', 'ext': '.md', 'nested_syntaxes': {'js': 'javascript','html': 'html','css': 'css','python':'python'}},
     \ {'path': '~/.local/share/nvim/vimwiki', 'syntax': 'markdown', 'ext': '.md', 'nested_syntaxes': {'js': 'javascript','html': 'html','css': 'css','py':'python'}}
     \ ]
 

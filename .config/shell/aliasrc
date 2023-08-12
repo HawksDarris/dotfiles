@@ -46,7 +46,6 @@ alias \
 	diff="diff --color=auto" \
 	ip="ip -color=auto"
 
-# dotlocal="/usr/bin/git --git-dir=$HOME/.local/bin --work-tree=$HOME/.local/bin" \
 # These common commands are just too long! Abbreviate them.
 alias \
 	ka="killall" \
@@ -63,6 +62,7 @@ alias \
 	rec="ffmpeg -f pulse -i 53 /tmp/output.wav" \
 	autofan="doas ectool --interface=lpc autofanctrl" \
 	config="/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME" \
+	devrepo="/usr/bin/git --git-dir=$HOME/Documents/Learning --work-tree=$HOME/Documents/Learning" \
 	cpu='ps -eo pcpu,pid,user,args | tail -n +2 | sort -k1 -r -n | head -10'
 
 alias \
