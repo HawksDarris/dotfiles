@@ -8,5 +8,3 @@
 	required = true
 [protocol "file"]
 	allow = always
-[alias]
-	rm = rm --cached
