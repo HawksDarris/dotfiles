@@ -1,0 +1,12 @@
+[user]
+	email = darris.hawks@gmail.com
+	name = HawksDarris
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[protocol "file"]
+	allow = always
+[alias]
+	rm = rm --cached
