@@ -8,3 +8,5 @@
 	required = true
 [protocol "file"]
 	allow = always
+[credential]
+	helper = cache --timeout=3600

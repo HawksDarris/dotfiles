@@ -1,0 +1,11 @@
+#!/bin/sh
+trashcan=/tmp/trash
+
+if [ -d ""$trashcan""  ]; then
+  mv "$@" "$trashcan"
+  echo "Moved to /tmp/trash. Will be destroyed on reboot."
+else
+  mkdir "$trashcan"
+  mv "$@" "$trashcan"
+  echo "Moved to /tmp/trash. Will be destroyed on reboot."
+fi
