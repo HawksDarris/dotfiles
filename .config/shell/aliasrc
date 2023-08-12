@@ -46,6 +46,7 @@ alias \
 	diff="diff --color=auto" \
 	ip="ip -color=auto"
 
+# dotlocal="/usr/bin/git --git-dir=$HOME/.local/bin --work-tree=$HOME/.local/bin" \
 # These common commands are just too long! Abbreviate them.
 alias \
 	ka="killall" \
