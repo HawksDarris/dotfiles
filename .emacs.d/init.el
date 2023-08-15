@@ -4,9 +4,20 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(nil))
- '(custom-safe-themes
-   '("7b8f5bbdc7c316ee62f271acf6bcd0e0b8a272fdffe908f8c920b0ba34871d98" default))
- '(package-selected-packages '(gruvbox-theme)))
+ '(custom-safe-themes t)
+ '(inhibit-startup-screen t)
+ '(package-selected-packages
+   '(
+     linum-relative babel org-contrib dashboard lsp-ui lsp-mode
+   treemacs use-package-ensure-system-package spacemacs-theme notmuch
+   gruvbox-theme goto-chg evil-vimish-fold evil-textobj-syntax
+   evil-tex evil-surround evil-snipe evil-quickscope evil-owl
+   evil-numbers evil-nerd-commenter evil-multiedit evil-goggles
+   evil-exchange evil-escape evil-easymotion evil-cleverparens
+   evil-args
+   ))
+ '(safe-local-variable-values '((org-confirm-babel-evaluate)))
+ '(use-package-use-theme t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -21,24 +32,23 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package org)
+(use-package org-contrib)
 
 ;;; Vim stuff when editing
 (use-package evil
   :demand t
 	:bind (("<escape>" . keyboard-escape-quit))
 	:init
-	;; allows for using cgn
-	;; (setq evil-search-module 'evil-search)
 	(setq evil-want-keybinding nil)
-	;; no insert bindings
-	(setq evil-undo-system 'undo-fu)
+	(setq evil-undo-system 'undo-tree)
   :config
   (evil-mode 1))
 
-;(dolist (package '(evil-vimish-fold evil-args evil-nerd-commenter evil-goggles evil-numbers evil-cleverparens evil-escape evil-exchange evil-quickscope evil-textobj-syntax evil-tex evil-snipe evil-owl evil-easymotion evil-surround evil-multiedit goto-chg))
-;  (eval `(use-package package
-;    :ensure t)))
+(use-package undo-tree
+  :ensure t
+  :init
+  (global-undo-tree-mode))
+
 (use-package evil-vimish-fold
   :ensure t)
 
@@ -90,10 +100,47 @@
 (use-package goto-chg
   :ensure t)
 
-;;; Still need to figure out how to use vim when not editing. Maybe. I guess it doesn't matter too much.
+(use-package treemacs
+  :ensure t)
+
+(use-package lsp-mode
+  :ensure t)
+
+(use-package lsp-ui
+  :ensure t)
 
 ; Themes
-(use-package gruvbox-theme
+(use-package spacemacs-theme
   :ensure t
   :config
-  (load-theme 'gruvbox))
+  (load-theme 'spacemacs-dark t))
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
+
+; Babel org code execution
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (shell . t)
+   (R . t)
+   (latex . t)
+   (js . t)))
+
+; Emacs basics
+(setq display-line-numbers 'relative)
+(global-display-line-numbers-mode 1)
+(use-package linum-relative
+  :ensure t
+  :config
+  (linum-relative-global-mode))
+
+;(evil-ex-define-cmd "e[dit]" 'find-file)
+(defun evil-ex-find-file ()
+  (interactive)
+  (let ((current-prefix-arg nil))
+    (call-interactively 'find-file)))
+
+(evil-ex-define-cmd "e[dit]" 'evil-ex-find-file)

@@ -1,0 +1,3 @@
+#+PROPERTY: header-args:conf :comments link :tangle-mode (identity #o444)
+#+title:Megadot
+#+author:Darris

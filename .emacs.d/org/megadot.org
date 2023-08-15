@@ -1,0 +1,6 @@
+#+PROPERTY: header-args:conf :comments link :tangle-mode (identity #o444)
+#+PROPERTY:   header-args+ :comments both
+#+PROPERTY:   header-args+ :mkdirp yes
+#+PROPERTY:   header-args+ :tangle "<filename>"
+#+title:Megadot
+#+author:Darris
