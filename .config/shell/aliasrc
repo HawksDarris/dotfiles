@@ -23,14 +23,14 @@ ym() {
 }
 
 cd() {
-    builtin cd "$@" && ls -da --color=auto --group-directories-first * && ls -d --color=auto --group-directories-first .*;
+    builtin cd "$@" && exa --sort=newest;
 }
 
 # Verbosity and settings that you pretty much just always are going to want.
 alias \
 	cp="cp -iv" \
 	mv="mv -iv" \
-	rm="echo 'rm -vI' has been aliased away. Use rem." \
+	rm="echo 'rm -vI' has been aliased away. Use 'rem' instead." \
 	bc="bc -ql" \
 	rsync="rsync -vrPlu" \
 	mkd="mkdir -pv" \

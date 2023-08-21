@@ -1,8 +1,9 @@
 #!/bin/zsh
 
 GUIX_PROFILE="$HOME/.config/guix/current"
+. "$GUIX_PROFILE/etc/profile"
+source /etc/profile
 
-# . "$GUIX_PROFILE/etc/profile"
 
 hash guix
 

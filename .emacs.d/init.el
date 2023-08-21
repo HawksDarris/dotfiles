@@ -6,16 +6,10 @@
  '(custom-enabled-themes '(nil))
  '(custom-safe-themes t)
  '(inhibit-startup-screen t)
+ '(org-modules
+   '(ol-bbdb ol-bibtex ol-docview ol-doi ol-eww ol-gnus ol-info ol-irc ol-mhe ol-rmail org-tempo ol-w3m))
  '(package-selected-packages
-   '(
-     linum-relative babel org-contrib dashboard lsp-ui lsp-mode
-   treemacs use-package-ensure-system-package spacemacs-theme notmuch
-   gruvbox-theme goto-chg evil-vimish-fold evil-textobj-syntax
-   evil-tex evil-surround evil-snipe evil-quickscope evil-owl
-   evil-numbers evil-nerd-commenter evil-multiedit evil-goggles
-   evil-exchange evil-escape evil-easymotion evil-cleverparens
-   evil-args
-   ))
+   '(yasnippet linum-relative babel org-contrib dashboard lsp-ui lsp-mode treemacs use-package-ensure-system-package spacemacs-theme notmuch gruvbox-theme goto-chg evil-vimish-fold evil-textobj-syntax evil-tex evil-surround evil-snipe evil-quickscope evil-owl evil-numbers evil-nerd-commenter evil-multiedit evil-goggles evil-exchange evil-escape evil-easymotion evil-cleverparens evil-args))
  '(safe-local-variable-values '((org-confirm-babel-evaluate)))
  '(use-package-use-theme t))
 (custom-set-faces
@@ -45,69 +39,69 @@
   (evil-mode 1))
 
 (use-package undo-tree
-  :ensure t
+  :defer t
   :init
   (global-undo-tree-mode))
 
 (use-package evil-vimish-fold
-  :ensure t)
+  :defer t)
 
 (use-package evil-args
-  :ensure t)
+  :defer t)
 
 (use-package evil-nerd-commenter
-  :ensure t)
+  :defer t)
 
 (use-package evil-goggles
-  :ensure t)
+  :defer t)
 
 (use-package evil-numbers
-  :ensure t)
+  :defer t)
 
 (use-package evil-cleverparens
-  :ensure t)
+  :defer t)
 
 (use-package evil-escape
-  :ensure t)
+  :defer t)
 
 (use-package evil-exchange
-  :ensure t)
+  :defer t)
 
 (use-package evil-quickscope
-  :ensure t)
+  :defer t)
 
 (use-package evil-textobj-syntax
   :ensure t)
 
 (use-package evil-tex
-  :ensure t)
+  :defer t)
 
 (use-package evil-snipe
-  :ensure t)
+  :defer t)
 
 (use-package evil-owl
-  :ensure t)
+  :defer t)
 
 (use-package evil-easymotion
-  :ensure t)
+  :defer t)
 
 (use-package evil-surround
-  :ensure t)
+  :defer t)
 
 (use-package evil-multiedit
-  :ensure t)
+  :defer t)
 
 (use-package goto-chg
-  :ensure t)
+  :defer t)
 
 (use-package treemacs
-  :ensure t)
+  :defer t)
 
 (use-package lsp-mode
-  :ensure t)
+  :defer t)
 
 (use-package lsp-ui
-  :ensure t)
+  :defer t)
 
 ; Themes
 (use-package spacemacs-theme
@@ -133,14 +127,43 @@
 (setq display-line-numbers 'relative)
 (global-display-line-numbers-mode 1)
 (use-package linum-relative
-  :ensure t
+  :defer t
   :config
   (linum-relative-global-mode))
 
-;(evil-ex-define-cmd "e[dit]" 'find-file)
+; Make :e RET execute find-file (I assume there's a better way to do this)
 (defun evil-ex-find-file ()
   (interactive)
   (let ((current-prefix-arg nil))
     (call-interactively 'find-file)))
 
-(evil-ex-define-cmd "e[dit]" 'evil-ex-find-file)
+; Make tab work in normal mode on org
+(evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+
+; Add values to TODO cycle on org mode
+(setq org-todo-keywords
+      '((sequence "TODO" "FEEDBACK" "VERIFY" "|" "DONE" "DELEGATED")))
+
+;; Set the number of days before a deadline that Org mode will start warning you
+(setq org-deadline-warning-days 7)
+
+;; Set the location where archived items should be stored
+(setq org-archive-location "~/.emacs.d/org/archive.org::datetree/")
+
+;; Function to archive all DONE items
+(defun org-archive-done-tasks ()
+  (when (eq major-mode 'org-mode)
+    (org-map-entries
+     (lambda ()
+       (org-archive-subtree)
+       (setq org-map-continue-from (outline-previous-heading)))
+     "/DONE" 'file)))
+
+;; Function to remove an org item and its subtree
+(defun org-remove-subtree ()
+  (when (eq major-mode 'org-mode)
+    (delete-region (org-back-to-heading) (org-end-of-subtree t t))))
+
+;; call to archive DONE items when that org buffer is killed
+(add-hook 'kill-buffer-hook 'org-archive-done-tasks)
+(add-hook 'kill-buffer-hook 'org-remove-subtree)

@@ -1,6 +1,853 @@
-#+PROPERTY: header-args:conf :comments link :tangle-mode (identity #o444)
-#+PROPERTY:   header-args+ :comments both
+#+PROPERTY: header-args:conf :comments link :tangle-mode (identity #o444) 
+#+PROPERTY:   header-args+ :comments both  
 #+PROPERTY:   header-args+ :mkdirp yes
 #+PROPERTY:   header-args+ :tangle "<filename>"
 #+title:Megadot
 #+author:Darris
+
+* Megadot Plan
+My plan is to make this into one big file that generates my dot files automatically. I like the idea of a central configuration hub.
+
+** TODO Design
+At present, I plan on organizing the files by their program and then, within the files themselves, organize each dotfile by splitting its configuration into categories.
+There is no real reason to do this other than, I guess, literate programming, but I think it will be an interesting exercise.
+
+*** Sorting
+Programs Alphabetically > Files Alphabetically  > Categories (TBD) Alphabetically
+
+* dunst
+** Caveat
+I might eventually replace dunst with rofi. There is a rofi fork for wayland, and X11's days are numbered.
+** The dotfile
+#+begin_source sh :tangle ~/.config/dunst/dunstrc
+[global]
+    monitor = 0
+    follow = keyboard
+    width = 370
+    height = 350
+    offset = 0x19
+    padding = 2
+    horizontal_padding = 2
+    transparency = 25
+    font = Monospace 12
+    format = "<b>%s</b>\n%b"
+
+[urgency_low]
+    background = "#1d2021"
+    foreground = "#928374"
+    timeout = 3
+
+[urgency_normal]
+    foreground = "#ebdbb2"
+    background = "#458588"
+    timeout = 5
+
+[urgency_critical]
+    background = "#1cc24d"
+    foreground = "#ebdbb2"
+    frame_color = "#fabd2f"
+    timeout = 10
+#+end_source
+
+* fontconfig
+#+begin_source xml :tangle ~/.config/fontconfig/fonts.conf
+<?xml version='1.0'?>
+<!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+<fontconfig>
+	<alias>
+		<family>serif</family>
+		<prefer>
+			<family>Linux Libertine</family>
+			<family>Joy Pixels</family>
+			<family>Noto Color Emoji</family>
+			<family>FontAwesome</family>
+		</prefer>
+	</alias>
+	<alias>
+		<family>sans-serif</family>
+		<prefer>
+			<family>Linux Biolinum</family>
+			<family>Joy Pixels</family>
+			<family>Noto Color Emoji</family>
+			<family>FontAwesome</family>
+		</prefer>
+	</alias>
+	<alias>
+		<family>sans</family>
+		<prefer>
+			<family>Linux Biolinum</family>
+			<family>Joy Pixels</family>
+			<family>Noto Color Emoji</family>
+			<family>FontAwesome</family>
+		</prefer>
+	</alias>
+	<alias>
+		<family>monospace</family>
+		<prefer>
+			<family>Noto Sans Mono</family>
+			<family>Liberation Mono</family>
+			<family>FontAwesome</family>
+			<family>Braille</family>
+		</prefer>
+	</alias>
+</fontconfig>
+#+end_source
+
+* Guix Package Manager
+Not to be confused with GuixSD, which I am also working on--nothing on Github yet.
+
+#+begin_source scheme :tangle ~/.config/guix/channels.scm
+(cons* (channel
+        (name 'nonguix)
+        (url "https://gitlab.com/nonguix/nonguix")
+        ;; Enable signature verification:
+        (introduction
+         (make-channel-introduction
+          "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+          (openpgp-fingerprint
+           "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
+       %default-channels)
+#+end_source
+
+* lf has a few config files
+** shortcutrc
+#+begin_source sh :tangle ~/.config/lf/shortcutrc
+map Ccac cd "/home/citric/.cache" 
+map Ccf cd "/home/citric/.config" 
+map CD cd "/home/citric/Downloads" 
+map Cd cd "/home/citric/Documents" 
+map Cdt cd "/home/citric/.local/share" 
+map Cti cd "/home/citric/texmf/tex/latex/local" 
+map Cte cd "/home/citric/Documents/Business/Clients/Templates" 
+map Crr cd "/home/citric/.local/src" 
+map Ch cd "/home/citric" 
+map Cm cd "/home/citric/Music" 
+map Cmn cd "/mnt" 
+map Cpp cd "/home/citric/Pictures" 
+map Csc cd "/home/citric/.local/bin" 
+map Csrc cd "/home/citric/.local/src" 
+map Cvv cd "/home/citric/Videos" 
+map Cwca cd "/home/citric/Documents/Catholic-Charities/Clients" 
+map Ccl cd "/home/citric/Documents/Business/Clients" 
+map Cpy cd "/home/citric/Documents/School/Python" 
+map Cjs cd "/home/citric/Documents/School/js" 
+map Cweb cd "/home/citric/Documents/School/web" 
+map Cltk cd "/home/citric/Documents/Business/Law-to-Know" 
+map Cb cd "/home/citric/Documents/Business" 
+map Ccfs cd "/home/citric/.config/nvim/mysnips" 
+map Ebf $$EDITOR "/home/citric/.config/shell/bm-files" 
+map Ebd $$EDITOR "/home/citric/.config/shell/bm-dirs" 
+map Ecfx $$EDITOR "/home/citric/.config/x11/xresources" 
+map Ecfb $$EDITOR "~/.local/src/dwmblocks/config.h" 
+map Ecfd $$EDITOR "~/.local/src/dwm/config.h" 
+map Ecfv $$EDITOR "/home/citric/.config/nvim/init.vim" 
+map Ecfz $$EDITOR "/home/citric/.config/zsh/.zshrc" 
+map Ecfa $$EDITOR "/home/citric/.config/shell/aliasrc" 
+map Ecfp $$EDITOR "/home/citric/.config/shell/profile" 
+map Ecfm $$EDITOR "/home/citric/.config/mutt/muttrc" 
+map Ecfn $$EDITOR "/home/citric/.config/newsboat/config" 
+map Ecfu $$EDITOR "/home/citric/.config/newsboat/urls" 
+map Ecfmb $$EDITOR "/home/citric/.config/ncmpcpp/bindings" 
+map Ecfmc $$EDITOR "/home/citric/.config/ncmpcpp/config" 
+map Ecfl $$EDITOR "/home/citric/.config/lf/lfrc" 
+map EcfL $$EDITOR "/home/citric/.config/lf/scope" 
+map EcfX $$EDITOR "/home/citric/.config/sxiv/exec/key-handler" 
+map Ecfq $$EDITOR "/home/citric/.config/qutebrowser/config.py" 
+map Erpy $$EDITOR "/home/citric/Documents/School/Python/quickref.py" 
+#+end_source
+
+** File Previews
+*** Steps to get image previews
+    1. Install ueberzug
+    2. The scope file (~/.config/lf/scope for me), must have a command similar to mine to generate ueberzug images.
+    3. A `set cleaner` line as below is a cleaner script.
+    4. Always start lf through a wrapper script to create the environment for ueberzug. 
+
+** scope
+#+begin_source sh :tangle ~/.config/lf/scope
+#!/bin/sh
+
+# File preview handler for lf.
+
+set -C -f
+IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
+
+image() {
+	if [ -f "$1" ] && [ -n "$DISPLAY" ] && [ -z "$WAYLAND_DISPLAY" ] && command -V ueberzug >/dev/null 2>&1; then
+		printf '{"action": "add", "identifier": "PREVIEW", "x": "%s", "y": "%s", "width": "%s", "height": "%s", "scaler": "contain", "path": "%s"}\n' "$4" "$5" "$(($2-1))" "$(($3-1))" "$1" > "$FIFO_UEBERZUG"
+	else
+		mediainfo "$6"
+	fi
+}
+
+ifub() {
+	[ -n "$DISPLAY" ] && [ -z "$WAYLAND_DISPLAY" ] && command -V ueberzug >/dev/null 2>&1
+}
+
+# Note that the cache file name is a function of file information, meaning if
+# an image appears in multiple places across the machine, it will not have to
+# be regenerated once seen.
+
+case "$(file --dereference --brief --mime-type -- "$1")" in
+	image/avif) CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/lf/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
+		[ ! -f "$CACHE" ] && convert "$1" "$CACHE.jpg"
+		image "$CACHE.jpg" "$2" "$3" "$4" "$5" "$1" ;;
+	image/*) image "$1" "$2" "$3" "$4" "$5" "$1" ;;
+	text/html) lynx -width="$4" -display_charset=utf-8 -dump "$1" ;;
+	text/troff) man ./ "$1" | col -b ;;
+	text/* | */xml | application/json) bat --terminal-width "$(($4-2))" -f "$1" ;;
+	audio/* | application/octet-stream) mediainfo "$1" || exit 1 ;;
+	video/* )
+		CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/lf/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
+		[ ! -f "$CACHE" ] && ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
+		image "$CACHE" "$2" "$3" "$4" "$5" "$1"
+		;;
+	*/pdf)
+		CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/lf/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
+		[ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
+		image "$CACHE.jpg" "$2" "$3" "$4" "$5" "$1"
+		;;
+	*/epub+zip|*/mobi*)
+		CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/lf/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
+		[ ! -f "$CACHE.jpg" ] && gnome-epub-thumbnailer "$1" "$CACHE.jpg"
+		image "$CACHE.jpg" "$2" "$3" "$4" "$5" "$1"
+		;;
+	application/*zip) atool --list -- "$1" ;;
+	*opendocument*) odt2txt "$1" ;;
+	application/pgp-encrypted) gpg -d -- "$1" ;;
+esac
+exit 1
+#+end_source
+
+** cleaner
+#+NAME: cleaner
+#+begin_source sh :tangle ~/.config/lf/cleaner
+#!/bin/sh
+if [ -n "$FIFO_UEBERZUG" ]; then
+	printf '{"action": "remove", "identifier": "PREVIEW"}\n' > "$FIFO_UEBERZUG"
+fi
+#+end_source
+
+** lfrc
+#+NAME: lfrc
+#+begin_source sh :tangle ~/.config/lf/lfrc
+# Basic vars
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+set icons
+set period 1
+set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
+set cleaner '~/.config/lf/cleaner'
+set previewer '~/.config/lf/scope'
+set autoquit on
+
+# cmds/functions
+cmd open ${{
+    case $(file --mime-type "$(readlink -f $f)" -b) in
+	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) localc $fx ;;
+	application/vnd.openxmlformats-officedocument.wordprocessingml.document) docx2txt $fx - | nvim -;;
+	application/zip) 7z x $fx;;
+	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) setsid -f zathura --plugins-dir ~/.guix-profile/lib/zathura $fx >/dev/null 2>&1 ;;
+        text/*|application/json|inode/x-empty|application/x-subrip) $EDITOR $fx;;
+	image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
+	image/svg+xml) display -- $f ;;
+	image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|avif\|tif\|ico\)\(_large\)*$" |
+		setsid -f sxiv -aio 2>/dev/null | while read -r file; do
+			[ -z "$file" ] && continue
+			lf -remote "send select \"$file\""
+			lf -remote "send toggle"
+		done &
+		;;
+	audio/*|video/x-ms-asf) mpv --audio-display=no $f ;;
+	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
+	application/pdf|application/vnd.djvu|application/epub*) setsid -f zathura --plugins-dir ~/.guix-profile/lib/zathura $fx >/dev/null 2>&1 ;;
+	application/pgp-encrypted) $EDITOR $fx ;;
+	application/vnd.openxmlformats-officedocument.wordprocessingml.document|application/vnd.oasis.opendocument.text) setsid -f lowriter $fx >/dev/null 2>&1 ;;
+	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/octet-stream|application/vnd.oasis.opendocument.spreadsheet|application/vnd.oasis.opendocument.spreadsheet-template) setsid -f localc $fx >/dev/null 2>&1 ;;
+	application/vnd.openxmlformats-officedocument.presentationml.presentation|application/vnd.oasis.opendocument.presentation-template|application/vnd.oasis.opendocument.presentation|application/vnd.ms-powerpoint) setsid -f loimpress $fx >/dev/null 2>&1 ;;
+	application/vnd.oasis.opendocument.graphics|application/vnd.oasis.opendocument.graphics-template) setsid -f lodraw $fx >/dev/null 2>&1 ;;
+	application/vnd.oasis.opendocument.formula) setsid -f lomath $fx >/dev/null 2>&1 ;;
+	application/vnd.oasis.opendocument.database) setsid -f lobase $fx >/dev/null 2>&1 ;;
+        *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
+    esac
+}}
+
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+
+cmd extract ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "extract?[y/N]"
+	read ans
+	[ $ans = "y" ] && aunpack $fx
+}}
+
+cmd delete ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "delete?[y/N]"
+	read ans
+	[ $ans = "y" ] && rm -rf -- $fx
+}}
+
+cmd moveto ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	clear; echo "Move to where?"
+	dest="$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf | sed 's|~|$HOME|')" &&
+	for x in $fx; do
+		eval mv -iv \"$x\" \"$dest\"
+	done &&
+	notify-send "🚚 File(s) moved." "File(s) moved to $dest."
+}}
+
+cmd copyto ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	clear; echo "Copy to where?"
+	dest="$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf | sed 's|~|$HOME|')" &&
+	for x in $fx; do
+		eval cp -ivr \"$x\" \"$dest\"
+	done &&
+	notify-send "📋 File(s) copied." "File(s) copies to $dest."
+}}
+
+cmd setbg "$1"
+cmd bulkrename $vidir
+cmd bulkdelete $vidir
+
+# Bindings
+map <c-f> $lf -remote "send $id select \"$(fzf)\""
+map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
+map gh
+map g top
+map d delete
+map D bulkdelete
+map E extract
+map C copyto
+map M moveto
+map <c-n> push :mkdir<space>
+map <c-r> reload
+map <c-s> set hidden!
+map <enter> shell
+map x $$f
+map X !$f
+map o &mimeopen "$f"
+map O $mimeopen --ask "$f"
+
+map A rename # at the very end
+map c push A<c-u> # new rename
+map I push A<c-a> # at the very beginning
+map i push A<a-b><a-b><a-f> # before extension
+map a push A<a-b> # after extension
+map B bulkrename
+map b $setbg $f
+
+map <c-e> down
+map <c-y> up
+map V push :!nvim<space>
+
+map W $setsid -f $TERMINAL >/dev/null 2>&1
+
+map Y $printf "%s" "$fx" | xclip -selection clipboard
+
+# Source Bookmarks
+source "~/.config/lf/shortcutrc"
+#+end_source
+** icons 
+#+NAME: icons
+#+begin_source sh :tangle ~/.config/lf/icons
+di	📁
+fi	📃
+tw	🤝
+ow	📂
+ln	⛓
+or	❌
+ex	🎯
+*.txt	✍
+*.mom	✍
+*.me	✍
+*.ms	✍
+*.avif	🖼
+*.png	🖼
+*.webp	🖼
+*.ico	🖼
+*.jpg	📸
+*.jpe	📸
+*.jpeg	📸
+*.gif	🖼
+*.svg	🗺
+*.tif	🖼
+*.tiff	🖼
+*.xcf	🖌
+*.html	🌎
+*.xml	📰
+*.gpg	🔒
+*.css	🎨
+*.pdf	📚
+*.djvu	📚
+*.epub	📚
+*.csv	📓
+*.xlsx	📓
+*.tex	📜
+*.md	📘
+*.r	    📊
+*.R	    📊
+*.rmd	📊
+*.Rmd	📊
+*.m	    📊
+*.mp3	🎵
+*.opus	🎵
+*.ogg	🎵
+*.m4a	🎵
+*.flac	🎼
+*.wav	🎼
+*.mkv	🎥
+*.mp4	🎥
+*.webm	🎥
+*.mpeg	🎥
+*.avi	🎥
+*.mov	🎥
+*.mpg	🎥
+*.wmv	🎥
+*.m4b	🎥
+*.flv	🎥
+*.zip	📦
+*.rar	📦
+*.7z	📦
+*.tar	📦
+*.z64	🎮
+*.v64	🎮
+*.n64	🎮
+*.gba	🎮
+*.nes	🎮
+*.gdi	🎮
+*.1	    ℹ
+*.nfo	ℹ
+*.info	ℹ
+*.log	📙
+*.iso	📀
+*.img   📀
+*.bib   🎓
+*.ged   👪
+*.part  💔
+*.torrent 🔽
+*.jar   ♨
+*.java	♨
+#+end_source
+
+
+* mpd
+#+name: mpd.conf
+#+begin_source sh :tangle ~/.config/mpd/mpd.conf
+music_directory		"~/Music"
+playlist_directory	"~/.config/mpd/playlists"
+
+auto_update "yes"
+bind_to_address "127.0.0.1"
+restore_paused "yes"
+max_output_buffer_size "16384"
+
+audio_output {
+	type "pulse"
+	name "pulse"
+	#type  "alsa"
+	#name  "ALSA"
+}
+
+audio_output {
+       type	"fifo"
+       name	"Visualizer feed"
+       path	"/tmp/mpd.fifo"
+       format	"44100:16:2"
+}
+#+end_source
+
+* mpv has a lot 
+** Configuration Files
+*** input.conf
+Just to make it vimish
+
+#+name: input.conf
+#+begin_source sh :tangle ~/.config/mpv/input.conf
+l seek 5
+h seek -5
+j seek -60
+k seek 60
+S cycle sub
+#+end_source
+
+*** mpv.con
+**** TODO 
+Trying to make it chill out on the cpu usage. Not sure if this is the correct configuration
+
+#+name: mpv.conf
+#+begin_source sh :tangle ~/.config/mpv/mpv.conf
+hwdec=vaapi
+vo=opengl
+#+end_source
+** Lua Scripts
+*** TODO
+Review these lua files. 
+
+*** modules.lua
+#+name: mpv.conf
+#+begin_source lua :tangle ~/.config/mpv/scripts/modules.lua
+local mpv_config_dir_path = require("mp").command_native({"expand-path", "~~/"})
+function load(relative_path) dofile(mpv_config_dir_path .. "/script_modules/" .. relative_path) end
+load("mpvSockets/mpvSockets.lua")
+#+end_source
+
+*** mpvSockets Script Information
+This script makes mpv create one socket per instance instead of one socket in total, removing the socket on exit. I did not write it.
+Path: 
+**** License
+MIT License
+
+Copyright (c) 2019 Wis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+**** mpvSockets.lua
+#+name: $HOME/.config/mpv/script_modules/mpvSockets/mpvSockets.lua
+#+begin_source lua :tangle ~/.config/mpv/script_modules/mpvSockets/mpvSockets.lua
+local utils = require 'mp.utils'
+
+local function get_temp_path()
+    local directory_seperator = package.config:match("([^\n]*)\n?")
+    local example_temp_file_path = os.tmpname()
+
+    -- remove generated temp file
+    pcall(os.remove, example_temp_file_path)
+
+    local seperator_idx = example_temp_file_path:reverse():find(directory_seperator)
+    local temp_path_length = #example_temp_file_path - seperator_idx
+
+    return example_temp_file_path:sub(1, temp_path_length)
+end
+
+tempDir = get_temp_path()
+
+function join_paths(...)
+    local arg={...}
+    path = ""
+    for i,v in ipairs(arg) do
+        path = utils.join_path(path, tostring(v))
+    end
+    return path;
+end
+
+ppid = utils.getpid()
+os.execute("mkdir " .. join_paths(tempDir, "mpvSockets") .. " 2>/dev/null")
+mp.set_property("options/input-ipc-server", join_paths(tempDir, "mpvSockets", ppid))
+
+function shutdown_handler()
+        os.remove(join_paths(tempDir, "mpvSockets", ppid))
+end
+mp.register_event("shutdown", shutdown_handler)
+#+end_source
+
+
+* ncmpcpp
+This is a music player I like but rarely use. I am considering deleting it. Plus its name is annoying.
+** Bindings
+#+name: $HOME/.config/ncmpcpp/bindings
+#+begin_source sh :tangle $HOME/.config/ncmpcpp/bindings
+def_key "+"
+    show_clock
+def_key "="
+    volume_up
+
+def_key "j"
+    scroll_down
+def_key "k"
+    scroll_up
+
+def_key "ctrl-u"
+    page_up
+
+def_key "ctrl-d"
+    page_down
+
+def_key "u"
+    page_up
+
+def_key "d"
+    page_down
+
+def_key "h"
+    previous_column
+def_key "l"
+    next_column
+
+def_key "."
+    show_lyrics
+
+def_key "n"
+    next_found_item
+def_key "N"
+    previous_found_item
+
+def_key "J"
+    move_sort_order_down
+def_key "K"
+    move_sort_order_up
+def_key "h"
+  jump_to_parent_directory
+def_key "l"
+  enter_directory
+def_key "l"
+  run_action
+def_key "l"
+  play_item
+def_key "m"
+  show_media_library
+def_key "m"
+  toggle_media_library_columns_mode
+def_key "t"
+  show_tag_editor
+def_key "v"
+  show_visualizer
+def_key "G"
+  move_end
+def_key "g"
+  move_home
+#jump_to_position_in_song
+def_key "U"
+  update_database
+def_key "s"
+  reset_search_engine
+def_key "s"
+  show_search_engine
+def_key "f"
+  show_browser
+def_key "f"
+  change_browse_mode
+def_key "x"
+  delete_playlist_items
+def_key "P"
+  show_playlist
+#+end_source
+
+** Config
+#+name: $HOME/.config/ncmpcpp/config
+#+begin_source sh :tangle $HOME/.config/ncmpcpp/config
+# vim: filetype=conf
+
+ncmpcpp_directory = "~/.config/ncmpcpp"
+lyrics_directory = "~/.local/share/lyrics"
+mpd_music_dir = "~/Music"
+message_delay_time = "1"
+visualizer_type = "spectrum"
+song_list_format = {$4%a - }{%t}|{$8%f$9}$R{$3(%l)$9}
+song_status_format = $b{{$8"%t"}} $3by {$4%a{ $3in $7%b{ (%y)}} $3}|{$8%f}
+song_library_format = {%n - }{%t}|{%f}
+alternative_header_first_line_format = $b$1$aqqu$/a$9 {%t}|{%f} $1$atqq$/a$9$/b
+alternative_header_second_line_format = {{$4$b%a$/b$9}{ - $7%b$9}{ ($4%y$9)}}|{%D}
+current_item_prefix = $(cyan)$r$b
+current_item_suffix = $/r$(end)$/b
+current_item_inactive_column_prefix = $(magenta)$r
+current_item_inactive_column_suffix = $/r$(end)
+playlist_display_mode = columns
+browser_display_mode = columns
+progressbar_look = ->
+media_library_primary_tag = album_artist
+media_library_albums_split_by_date = no
+startup_screen = "media_library"
+display_volume_level = no
+ignore_leading_the = yes
+external_editor = nvim
+use_console_editor = yes
+empty_tag_color = magenta
+main_window_color = white
+progressbar_color = black:b
+progressbar_elapsed_color = blue:b
+statusbar_color = red
+statusbar_time_color = cyan:b
+#+end_source
+
+
+* neovim
+** Snips
+Possibly going to get rid of snippets if I move to emacs--very possible with org mode. I quite like org mode.
+*** all.snippets
+These work for all file extensions. Priority must be set lower in other snippets files or this will override them. 
+#+name: $HOME/.config/nvim/mysnips/all.snippets
+#+begin_source sh :tangle $HOME/.config/nvim/mysnips/all.snippets
+priority -60
+#+end_source
+
+**** Pretty boxes and lorem text
+#+begin_source sh :tangle $HOME/.config/nvim/mysnips/all.snippets
+##############
+# NICE BOXES #
+##############
+global !p
+from vimsnippets import foldmarker, make_box, get_comment_format
+LOREM = """
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod \
+tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At \
+vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, \
+no sea takimata sanctus est Lorem ipsum dolor sit amet.
+"""
+endglobal
+
+snippet box "A nice box with the current comment symbol" b
+`!p
+box = make_box(len(t[1]))
+snip.rv = box[0]
+snip += box[1]
+`${1:${VISUAL:content}}`!p
+box = make_box(len(t[1]))
+snip.rv = box[2]
+snip += box[3]`
+$0
+endsnippet
+#+end_source
+
+**** Pretty boxes and lorem text
+#+begin_source shell
+snippet prompt "For AI"
+Pretend you are an advanced AI language model specialized in $1, well-versed in its ${2:configuration, manual, and source code}. Your purpose is to assist with $1-related queries and provide accurate solutions.
+
+A person seeks your help with $3. They $4
+endsnippet
+
+snippet bbox "A nice box over the full width" b
+`!p
+if not snip.c:
+	width = int(vim.eval("&textwidth - (virtcol('.') == 1 ? 0 : virtcol('.'))")) or 71
+box = make_box(len(t[1]), width)
+snip.rv = box[0]
+snip += box[1]
+`${1:${VISUAL:content}}`!p
+box = make_box(len(t[1]), width)
+snip.rv = box[2]
+snip += box[3]`
+$0
+endsnippet
+
+snippet py "Markdown nested code syntax for Python"
+\`\`\`python
+$0
+\`\`\`
+endsnippet
+
+snippet fold "Insert a vim fold marker" b
+`!p snip.rv = get_comment_format()[0]` ${1:Fold description} `!p snip.rv = foldmarker()[0]`${2:1} `!p snip.rv = get_comment_format()[2]`
+endsnippet
+
+snippet foldc "Insert a vim fold close marker" b
+`!p snip.rv = get_comment_format()[0]` ${2:1}`!p snip.rv = foldmarker()[1]` `!p snip.rv = get_comment_format()[2]`
+endsnippet
+
+snippet foldp "Insert a vim fold marker pair" b
+`!p snip.rv = get_comment_format()[0]` ${1:Fold description} `!p snip.rv = foldmarker()[0]` `!p snip.rv = get_comment_format()[2]`
+${2:${VISUAL:Content}}
+`!p snip.rv = get_comment_format()[0]` `!p snip.rv = foldmarker()[1]` $1 `!p snip.rv = get_comment_format()[2]`
+endsnippet
+
+##########################
+# LOREM IPSUM GENERATORS #
+##########################
+snippet "lorem(([1-4])?[0-9])?" "Lorem Ipsum" r
+`!p snip.rv = " ".join(LOREM.split()[:int(match.group(1))]) if match.group(1) else LOREM`
+endsnippet
+
+##########################
+# VIM MODELINE GENERATOR #
+##########################
+# See advice on `:help 'tabstop'` for why these values are set. Uses second
+# modeline form ('set') to work in languages with comment terminators
+# (/* like C */).
+snippet modeline "Vim modeline"
+vim`!v ':set '. (&expandtab ? printf('et sw=%i ts=%i', &sw, &ts) : printf('noet sts=%i sw=%i ts=%i', &sts, &sw, &ts)) . (&tw ? ' tw='. &tw : '') . ':'`
+endsnippet
+
+#########
+# DATES #
+#########
+snippet date "YYYY-MM-DD" w
+`!v strftime("%Y-%m-%d")`
+endsnippet
+
+snippet ddate "Month DD, YYYY" w
+`!v strftime("%b %d, %Y")`
+endsnippet
+
+snippet diso "ISO format datetime" w
+`!v strftime("%Y-%m-%d %H:%M:%S%z")`
+endsnippet
+
+snippet time "hh:mm" w
+`!v strftime("%H:%M")`
+endsnippet
+
+snippet dt "YYYY-MM-DD hh:mm" w
+`!v strftime("%Y-%m-%d %H:%M")`
+endsnippet
+
+snippet todo "TODO comment" bw
+`!p snip.rv=get_comment_format()[0]` ${2:TODO}: $0${3: <${4:`!v strftime('%d-%m-%y')`}${5:, `!v g:snips_author`}>} `!p snip.rv=get_comment_format()[2]`
+endsnippet
+
+##########
+#  Misc  #
+##########
+snippet uuid "Random UUID" w
+`!p if not snip.c: import uuid; snip.rv = str(uuid.uuid4())`
+endsnippet
+
+# vim:ft=snippets:
+#+end_source
+
+#+name: $HOME/.config/nvim/mysnips
+#+begin_source shell
+#+end_source
+
+#+name: $HOME/.config/nvim/mysnips
+#+begin_source shell
+#+end_source
+
+#+name: $HOME/.config/nvim/mysnips
+#+begin_source shell
+#+end_source
+
+#+name: $HOME/.config/nvim/mysnips
+#+begin_source shell
+#+end_source
+
+#+name: $HOME/.config/nvim/mysnips
+#+begin_source shell
+#+end_source
+
+
+** init.vim
+
+#+name: $HOME/.config/ncmpcpp/bindings
+#+begin_source shell
+#+end_source
+
+* 
+#+name: $HOME/.config/ncmpcpp/bindings
+#+begin_source shell
+#+end_source

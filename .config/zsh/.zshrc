@@ -27,12 +27,21 @@ _comp_options+=(globdots)		# Include hidden files.
 bindkey -v
 export KEYTIMEOUT=1
 
+# Possibly will fix the issue I keep having with yay
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:
+
 # various fixes for guix
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export GUIX_LOCPATH=$HOME/.guix-profile/lib/locale
+GUIX_PROFILE="$HOME/.config/guix/current"
+. "$GUIX_PROFILE/etc/profile"
+source /etc/profile
 # caused by guix, need library specified for zathura
 export ZATHURA_PLUGINS_PATH=$HOME/.guix-profile/lib/zathura
+
+# To make dwm `MODKEY, XK_n` launch emacs to org notes, set .emacs.d/org variable
+export ORG_PATH=$HOME/.emacs.d/org
 
 # Use vim keys in tab complete menu:
 bindkey -M menuselect 'h' vi-backward-char
@@ -84,3 +93,5 @@ bindkey -M visual '^[[P' vi-delete
 
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
+
+source /home/citric/.config/broot/launcher/bash/br

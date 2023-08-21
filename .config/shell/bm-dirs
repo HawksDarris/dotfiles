@@ -16,9 +16,10 @@ src $HOME/.local/src
 vv  ${XDG_VIDEOS_DIR:-$HOME/Videos}
 wca  $HOME/Documents/Catholic-Charities/Clients
 cl  $HOME/Documents/Business/Clients
-py  $HOME/Documents/School/Python
-js  $HOME/Documents/School/js
-web $HOME/Documents/School/web
+py  $HOME/Documents/Learning/Python
+js  $HOME/Documents/Learning/js
+web $HOME/Documents/Learning/web
 ltk $HOME/Documents/Business/Law-to-Know
 b $HOME/Documents/Business
 cfs ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/mysnips
+pa  ${XDG_PICTURES_DIR:-$HOME/Pictures}/Arden

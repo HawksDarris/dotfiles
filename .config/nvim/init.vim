@@ -290,3 +290,5 @@ nnoremap gf :call OpenFileUnderCursor()<CR>
 autocmd BufNewFile  *.html	0r ~/.local/share/nvim/skeletons/skeleton.html
 autocmd BufNewFile  *.css	0r ~/.local/share/nvim/skeletons/skeleton.css
 autocmd BufNewFile  *.py	0r ~/.local/share/nvim/skeletons/skeleton.py
+
+highlight Search guibg='Purple' guifg='NONE'
